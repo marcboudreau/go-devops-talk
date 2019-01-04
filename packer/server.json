@@ -1,0 +1,44 @@
+{
+    "variables": {
+        "commit_hash": "{{env `COMMIT_HASH` }}"
+    },
+    "builders": [
+        {
+            "type": "googlecompute",
+            "account_file": "",
+            "project_id": "go-devops-talk",
+            "source_image_family": "debian-9",
+            "ssh_username": "packer",
+            "zone": "us-central1-a",
+            "image_name": "server-{{user `commit_hash` }}",
+            "image_family": "go-devops-talk",
+            "preemptible": true
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -",
+                "sudo apt-key fingerprint 0EBFCD88",
+                "sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable\"",
+                "sudo apt-get update",
+                "sudo apt-get install -y docker-ce=18.09.0",
+                "sudo docker run --rm hello-world",
+                "sudo curl -o /etc/ssh/trusted-user-ca-keys.pem https://vault.msbsoftware.ca:8200/v1/ssh/public_key",
+                ""
+            ]
+        },
+        {
+            "type": "file",
+            "source": "sshd_config",
+            "destination": "/tmp/sshd_config"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo mv /tmp/sshd_config /etc/ssh/sshd_config"
+            ]
+        }
+    ]
+}
