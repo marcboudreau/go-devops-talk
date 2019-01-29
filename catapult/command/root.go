@@ -80,15 +80,14 @@ it receives to the specified remote port, and vice-versa.`,
 			return
 		}
 
+		if !strings.Contains(serverAddress, ":") {
+			serverAddress = serverAddress + ":22"
+		}
+
 		server, err := net.ResolveTCPAddr("tcp", serverAddress)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error: failed to parse server address %s.  Error: %s\n", serverAddress, err)
 			return
-		}
-
-		// If a port was not specified, use the default: 22
-		if server.Port == 0 {
-			server.Port = 22
 		}
 
 		local, err := parseAddress(localAddressStr)
