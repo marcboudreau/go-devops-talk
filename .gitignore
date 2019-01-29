@@ -1,3 +1,3 @@
-catapult/bin/*
+catapult/bin/catapult
 terraform/.terraform
 terraform/terraform.tfstate*
