@@ -1,3 +1,2 @@
-catapult/bin/*
 terraform/.terraform
 terraform/terraform.tfstate*
