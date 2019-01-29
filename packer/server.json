@@ -26,7 +26,8 @@
                 "sudo apt-get update",
                 "sudo apt-get install -y docker-ce",
                 "sudo docker run --rm hello-world",
-                "sudo curl -sf -o /etc/ssh/trusted-user-ca-keys.pem https://vault.msbsoftware.ca:8200/v1/ssh/public_key"
+                "sudo curl -sf -o /etc/ssh/trusted-user-ca-keys.pem https://vault.msbsoftware.ca:8200/v1/ssh/public_key",
+                "sudo useradd user -m -s /bin/bash -U -G adm,docker,google-sudoers"
             ]
         },
         {
